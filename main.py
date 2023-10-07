@@ -26,8 +26,8 @@ while True:
     Print(Fore.GREEN + "Password:")
     password = str(input(Fore.YELLOW + "~/ "))
   
-    if os.path.exists(username + ".json"):
-      with open(username + ".json", "r") as openJsonReadable:
+    if os.path.exists("sessions/" + username + ".json"):
+      with open("sessions/" + username + ".json") as openJsonReadable:
         user = json.load(openJsonReadable)
     
       if user["password"] == hashlib.sha256(password.encode()).hexdigest():
@@ -52,10 +52,10 @@ while True:
     Print(Fore.GREEN + "Last name:")
     lastName = str(input(Fore.YELLOW + "~/ "))
   
-    if os.path.exists(username + ".json") == False:
-      user = {"username": username, "password": hashlib.sha256(password.encode()).hexdigest(), "firstName": firstName, "lastName": lastName}
+    if os.path.exists("sessions/" + username + ".json") == False:
+      user = {"username": username, "password": hashlib.sha256(password.encode()).hexdigest(), "firstName": firstName.lower(), "lastName": lastName.lower()}
       
-      with open(username + ".json", "w") as openJsonWritable:
+      with open("sessions/" + username + ".json", "w") as openJsonWritable:
         json.dump(user, openJsonWritable, indent=2)
         
       loggedIn = True
