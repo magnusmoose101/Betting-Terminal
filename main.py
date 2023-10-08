@@ -2,6 +2,7 @@ import time
 import json
 import os
 import hashlib
+import random
 import colorama
 from colorama import Fore
 
@@ -57,6 +58,14 @@ while True:
       
       with open("sessions/" + username + ".json", "w") as openJsonWritable:
         json.dump(user, openJsonWritable, indent=2)
+
+      with open("users.json", "r") as openJsonReadable:
+        usernames = json.load(openJsonReadable)
+
+      usernames.append(username)
+      
+      with open("users.json", "w") as openJsonWritable:
+        json.dump(usernames, openJsonWritable, indent=2)
         
       loggedIn = True
       break
@@ -70,3 +79,20 @@ while True:
     Print(Fore.GREEN + "  1) Yes")
     Print(Fore.GREEN + "  2) No")
     accountOrNot = str(input(Fore.YELLOW + "~/ "))
+
+Print(Fore.GREEN + "")
+Print(Fore.GREEN + "Searching for opponent.")
+
+with open("users.json", "r") as openJsonReadable:
+  usernames = json.load(openJsonReadable)
+
+usernamesLength = len(usernames) - 1
+userNumber = random.randint(0, usernamesLength)
+user = usernames[userNumber]
+
+with open("sessions/" + user + ".json", "r") as openJsonReadable:
+  userFile = json.load(openJsonReadable)
+
+Print(Fore.GREEN + "Scanning network.")
+Print(Fore.GREEN + "Opponent found.")
+Print(Fore.GREEN + "Opponent: " + userFile["username"])
